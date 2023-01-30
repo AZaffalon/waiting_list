@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_30_084510) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_30_103039) do
   create_table "requests", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
     t.boolean "email_confirmation", default: false
-    t.integer "phone_number", null: false
+    t.string "phone_number", null: false
     t.text "biography", null: false
     t.boolean "accepted", default: false
     t.datetime "created_at", null: false
