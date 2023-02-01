@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   root 'requests#new'
   resources :requests, only: [:new, :create]
   get 'confirm_email', to: 'requests#confirm_email'
+  get 'reconfirm_email', to: 'requests#reconfirm_email'
 end

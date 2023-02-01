@@ -1,0 +1,7 @@
+<h1>Hi <%= @request.name %></h1>
+
+<p>
+  You are 'Put Position here', if you're still interested please click on the link below
+</p>
+
+<%= link_to 'Still interested', reconfirm_email_url(request: @request) %>

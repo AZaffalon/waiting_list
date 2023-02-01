@@ -8,7 +8,7 @@ class RequestsController < ApplicationController
     @request = Request.new(request_params)
 
     if @request.save
-      redirect_to new_request_path, notice: 'Go check your emails and click on the link to confirm it'
+      redirect_to new_request_path, notice: 'An email has been sent to your email address'
     else
       render :new, status: :unprocessable_entity
     end
@@ -17,6 +17,10 @@ class RequestsController < ApplicationController
   def confirm_email
     Request.find(params[:request]).update_attribute(:email_confirmation, true)
     redirect_to new_request_path, notice: 'Your email has been confirmed'
+  end
+
+  def reconfirm_email
+    # TODO
   end
 
   private
