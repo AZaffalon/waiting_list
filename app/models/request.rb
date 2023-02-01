@@ -1,10 +1,12 @@
 class Request < ApplicationRecord
+  before_save :format_phone_number
+
   after_create :send_confirm_email
 
   validates :name, :email, :phone_number, :biography, presence: true
   validates :email, uniqueness: true
   validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
-  validates_format_of :phone_number, with: /^(?:(?:(?:\+|00)33[ ]?(?:\(0\)[ ]?)?)|0){1}[1-9]{1}([ .-]?)(?:\d{2}\1?){3}\d{2}$/i, on: :create, multiline: true
+  validates :phone_number, phone: { countries: :fr }
 
   # Request with email not confirmed yet
   scope :unconfirmed, -> { where(email_confirmation: false) }
@@ -18,8 +20,13 @@ class Request < ApplicationRecord
     self.update_attribute(:accepted, true)
   end
 
+  # Format phone_number in e164 before saving it
+  def format_phone_number
+    self.phone_number = Phonelib.parse(self.phone_number).e164
+  end
+
   def send_confirm_email
-    RequestMailer.confirm_email(self).deliver_now
+    RequestMailer.confirm_email(self).deliver_later
   end
 
 end
