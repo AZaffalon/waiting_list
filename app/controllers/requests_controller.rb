@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  before_action :set_request, only: [:confirm_email, :reconfirm_email]
 
   def new
     @request = Request.new
@@ -15,15 +16,20 @@ class RequestsController < ApplicationController
   end
 
   def confirm_email
-    Request.find(params[:request]).update_attribute(:email_confirmation, true)
+    @request.update(email_confirmation: true, confirmed_at: Date.today)
     redirect_to new_request_path, notice: 'Your email has been confirmed'
   end
 
   def reconfirm_email
-    # TODO
+    @request.update(email_confirmation: true, confirmed_at: Date.today)
+    redirect_to new_request_path, notice: 'Your email has been reconfirmed'
   end
 
   private
+
+  def set_request
+    @request = Request.find(params[:request])
+  end
 
   def request_params
     params.require(:request).permit(:name, :email, :phone_number, :biography)

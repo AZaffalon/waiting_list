@@ -1,7 +1,8 @@
 <h1>Hi <%= @request.name %></h1>
 
 <p>
-  You are 'Put Position here', if you're still interested please click on the link below
+  You are in position <%= @position %> in the Waiting list, if you're still interested please reconfirm your email address by
+  clicking on the link below
 </p>
 
-<%= link_to 'Still interested', reconfirm_email_url(request: @request) %>
+<%= link_to 'I am still interested', reconfirm_email_url(request: @request) %>

@@ -13,7 +13,9 @@ class RequestMailer < ApplicationMailer
 
   def reconfirm_email(request)
     @request = request
-    # Todo -> define a variable returning the position of the request in the waiting list
+    waiting_list = Request.confirmed.unaccepted
+    @position = waiting_list.index(request) + 1
+
     mail to: request.email
     mail subject: 'Re-confirm your email'
   end

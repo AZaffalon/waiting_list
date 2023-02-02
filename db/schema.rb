@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_31_152224) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_02_101146) do
   create_table "requests", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_152224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "expired", default: false
+    t.date "confirmed_at"
   end
 
 end
