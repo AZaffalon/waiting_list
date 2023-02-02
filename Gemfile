@@ -45,6 +45,12 @@ gem "bootsnap", require: false
 # Phone number validation
 gem 'phonelib'
 
+# Write and deploy cron jobs
+gem 'whenever', require: false
+
+# Background job
+gem 'sidekiq'
+
 # Use Sass to process CSS
 gem "sassc-rails"
 
@@ -59,7 +65,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  # Open new tab in development environment
+  # Open email in new tab in development environment
   gem "letter_opener"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
