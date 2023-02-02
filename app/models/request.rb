@@ -20,8 +20,8 @@ class Request < ApplicationRecord
   scope :expired, -> { where(accepted: true) }
 
   # Accept a request
-  def accept!
-    self.update_attribute(:accepted, true)
+  def self.accept!
+    Request.confirmed.order(:created_at).first.update(accepted: true)
   end
 
   # Format phone_number in e164 before saving it
