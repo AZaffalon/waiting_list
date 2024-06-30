@@ -17,7 +17,7 @@ class Request < ApplicationRecord
   # Request not accepted to the waiting list yet
   scope :unaccepted, -> { where(accepted: false) }
   # Requests that have not been reconfirmed
-  scope :expired, -> { where(accepted: true) }
+  scope :expired, -> { where(expired: true) }
 
   # Accept a request
   def self.accept!
@@ -34,17 +34,21 @@ class Request < ApplicationRecord
   end
 
   def self.send_reconfirm_email
+
     Request.confirmed.unaccepted.each do |request|
 
       three_months_from_last_confirmed = request.confirmed_at + 3.months
-
+      
       if  three_months_from_last_confirmed == Date.today
+
+        # TODO -> update_all concerned requests
         # Change email_confirmation to false
         request.update(email_confirmation: false)
 
         # Send email to reconfirm email
         RequestMailer.reconfirm_email(request).deliver_later
 
+        # TODO -> Use cronJob every days instead of ActiveJob
         # Check if email_confirmation is true, else -> change expired to true
         ConfirmEmailJob.set(wait: 2.days).perform_later(request)
       end
