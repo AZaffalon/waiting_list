@@ -1,5 +1,6 @@
 <h1>Hi <%= @request.name %></h1>
 
 <p>
+  <%# TODO -> Pass token instead of request_id  (@request) | security issue %>
   Please click on this <%= link_to 'link', confirm_email_url(request: @request) %> to confirm your email address
 </p>
