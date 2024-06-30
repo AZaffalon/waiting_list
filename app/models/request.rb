@@ -26,33 +26,29 @@ class Request < ApplicationRecord
 
   # Format phone_number in e164 before saving it
   def format_phone_number
-    self.phone_number = Phonelib.parse(self.phone_number).e164
+    self.phone_number = Phonelib.parse(phone_number).e164
   end
 
   def send_confirm_email
-    RequestMailer.confirm_email(self).deliver_later
+    RequestMailer.confirm_email(self).deliver_now
   end
 
   def self.send_reconfirm_email
-
     Request.confirmed.unaccepted.each do |request|
-
       three_months_from_last_confirmed = request.confirmed_at + 3.months
-      
-      if  three_months_from_last_confirmed == Date.today
 
-        # TODO -> update_all concerned requests
-        # Change email_confirmation to false
-        request.update(email_confirmation: false)
+      next unless three_months_from_last_confirmed == Date.today
 
-        # Send email to reconfirm email
-        RequestMailer.reconfirm_email(request).deliver_later
+      # TODO: -> update_all concerned requests
+      # Change email_confirmation to false
+      request.update(email_confirmation: false)
 
-        # TODO -> Use cronJob every days instead of ActiveJob
-        # Check if email_confirmation is true, else -> change expired to true
-        ConfirmEmailJob.set(wait: 2.days).perform_later(request)
-      end
+      # Send email to reconfirm email
+      RequestMailer.reconfirm_email(request).deliver_later
+
+      # TODO: -> Use cronJob every days instead of ActiveJob
+      # Check if email_confirmation is true, else -> change expired to true
+      ConfirmEmailJob.set(wait: 2.days).perform_later(request)
     end
   end
-
 end
