@@ -30,25 +30,28 @@ class Request < ApplicationRecord
   end
 
   def send_confirm_email
-    RequestMailer.confirm_email(self).deliver_now
+    RequestMailer.confirm_email(self).deliver_later
   end
 
   def self.send_reconfirm_email
+    # For all requests that have been accepted but not confirmed yet
     Request.confirmed.unaccepted.each do |request|
-      three_months_from_last_confirmed = request.confirmed_at + 3.months
+      # three_months_from_last_confirmed = request.confirmed_at + 3.months
 
-      next unless three_months_from_last_confirmed == Date.today
-
-      # TODO: -> update_all concerned requests
-      # Change email_confirmation to false
-      request.update(email_confirmation: false)
+      # next unless three_months_from_last_confirmed == Date.today
+      next unless request.confirmed_at == Date.today
 
       # Send email to reconfirm email
       RequestMailer.reconfirm_email(request).deliver_later
 
-      # TODO: -> Use cronJob every days instead of ActiveJob
+      # Change email_confirmation to false
+      request.update(email_confirmation: false)
+
       # Check if email_confirmation is true, else -> change expired to true
-      ConfirmEmailJob.set(wait: 2.days).perform_later(request)
+      # ConfirmEmailJob.set(wait: 2.days).perform_later(request)
+
+      puts 'Job is about to be launched'
+      ConfirmEmailJob.set(wait: 1.minute).perform_later(request)
     end
   end
 end
