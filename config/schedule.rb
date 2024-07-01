@@ -19,9 +19,13 @@
 
 # Learn more: http://github.com/javan/whenever
 set :env_path,    '"$HOME/.rbenv/shims":"$HOME/.rbenv/bin"'
-job_type :runner, %q{ cd :path && PATH=:env_path:"$PATH" bin/rails runner -e :environment ':task' :output }
-set :output, "log/cron.log"
+job_type :runner, %q( cd :path && PATH=:env_path:"$PATH" bin/rails runner -e :environment ':task' :output )
+set :output, 'log/cron.log'
 
-every :day do
-  runner "Request.send_reconfirm_email"
+# every :day do
+#   runner "Request.send_reconfirm_email"
+# end
+
+every 5.minutes do
+  runner 'Request.send_reconfirm_email'
 end
