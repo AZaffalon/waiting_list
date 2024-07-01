@@ -1,0 +1,7 @@
+Hi <%= @request.name %>
+============================
+
+You are in position <%= @position %> in the Waiting list, if you're still interested please reconfirm your email address by
+clicking on the link below
+
+<%= link_to 'I am still interested', reconfirm_email_url(request: @request) %>
