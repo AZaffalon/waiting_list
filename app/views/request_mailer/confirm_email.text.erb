@@ -1,3 +1,4 @@
-Request#confirm_email
-
-<%= @greeting %>, find me in app/views/request_mailer/confirm_email.text.erb
+Hi <%= @request.name %>
+==============================
+<%# TODO -> Pass token instead of request_id  (@request) | security issue %>
+Please click on this <%= link_to 'link', confirm_email_url(request: @request) %> to confirm your email address
