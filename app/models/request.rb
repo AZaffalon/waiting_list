@@ -44,9 +44,6 @@ class Request < ApplicationRecord
       # Send email to reconfirm email
       RequestMailer.reconfirm_email(request).deliver_later
 
-      # Change email_confirmation to false
-      request.update(email_confirmation: false)
-
       # Check if email_confirmation is true, else -> change expired to true
       # ConfirmEmailJob.set(wait: 2.days).perform_later(request)
 
