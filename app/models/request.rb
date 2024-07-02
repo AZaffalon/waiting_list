@@ -33,6 +33,7 @@ class Request < ApplicationRecord
     RequestMailer.confirm_email(self).deliver_later
   end
 
+  # Send a second email to confirm for the last time if the user is still interested
   def self.send_reconfirm_email
     # For all requests that have been accepted but not confirmed yet
     Request.confirmed.unaccepted.each do |request|
@@ -44,13 +45,9 @@ class Request < ApplicationRecord
       # Send email to reconfirm email
       RequestMailer.reconfirm_email(request).deliver_later
 
-      # Change email_confirmation to false
-      request.update(email_confirmation: false)
-
-      # Check if email_confirmation is true, else -> change expired to true
+      # Check if email_validated is true, else -> change expired to true
       # ConfirmEmailJob.set(wait: 2.days).perform_later(request)
 
-      puts 'Job is about to be launched'
       ConfirmEmailJob.set(wait: 1.minute).perform_later(request)
     end
   end
