@@ -11,11 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2024_07_02_082151) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "requests", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "email", null: false
+    t.text "name", null: false
+    t.text "email", null: false
     t.boolean "email_confirmation", default: false
-    t.string "phone_number", null: false
+    t.text "phone_number", null: false
     t.text "biography", null: false
     t.boolean "accepted", default: false
     t.datetime "created_at", null: false
