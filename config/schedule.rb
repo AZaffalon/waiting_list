@@ -26,6 +26,6 @@ set :output, 'log/cron.log'
 #   runner "Request.send_reconfirm_email"
 # end
 
-every 5.minutes do
+every 3.minutes do
   runner 'Request.send_reconfirm_email'
 end
