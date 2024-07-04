@@ -19,6 +19,8 @@ class Request < ApplicationRecord
   # Requests that have not been reconfirmed
   scope :expired, -> { where(expired: true) }
 
+  scope :unexpired, -> { where(expired: false) }
+
   # Accept a request
   def self.accept!
     Request.confirmed.order(:created_at).first.update(accepted: true)
@@ -36,7 +38,7 @@ class Request < ApplicationRecord
   # Send a second email to confirm for the last time if the user is still interested
   def self.send_reconfirm_email
     # For all requests that have been accepted but not confirmed yet
-    Request.confirmed.unaccepted.each do |request|
+    Request.confirmed.unaccepted.unexpired.each do |request|
       # three_months_from_last_confirmed = request.confirmed_at + 3.months
 
       # next unless three_months_from_last_confirmed == Date.today
