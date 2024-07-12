@@ -198,6 +198,7 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.2.1)
+    rbs (2.8.4)
     rdoc (6.7.0)
       psych (>= 4.0.0)
     redis (4.8.1)
@@ -273,7 +274,7 @@ PLATFORMS
   arm-linux
   arm-linux-gnu
   arm-linux-musl
-  arm64-darwin
+  arm64-darwin-22
   x86-linux
   x86-linux-gnu
   x86-linux-musl
@@ -293,6 +294,7 @@ DEPENDENCIES
   phonelib
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.2)
+  rbs (~> 2.0)
   redis (~> 4.0)
   sassc-rails
   selenium-webdriver
